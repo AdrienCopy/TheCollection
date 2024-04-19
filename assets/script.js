@@ -4,7 +4,7 @@ const collection = [
         director: "Denis Villeneuve",
         releaseYear: 2021,
         picture: "assets/image/dune.webp",
-        genre: ["Science-fiction", "Drama"],
+        genre: ["Science-fiction", "Drame"],
         cast: [
             "Timothée Chalamet",
             "Rebecca Ferguson",
@@ -162,10 +162,108 @@ const collection = [
 ];
 
 document.addEventListener("DOMContentLoaded", function() {
-    let films = collection;
-    let main = document.querySelector('main');
+    let title = "Adrien's Collection";
+    let header = document.querySelector('header');
+    let nav = document.createElement('nav');
 
-    films.forEach(function(film) {
+    let titleHeader = document.createElement('h1');
+    titleHeader.textContent = title;
+    header.appendChild(titleHeader);
+
+    let drameButton = document.createElement('button');
+    drameButton.textContent = "Drame";
+    drameButton.addEventListener('click', function() {
+        let filmsFiltres = filtreFilm("Drame");
+        showFilm(filmsFiltres);
+        
+    });
+    nav.appendChild(drameButton);
+
+    let actionButton = document.createElement('button');
+    actionButton.textContent = "Action";
+    actionButton.addEventListener('click', function() {
+        let filmsFiltres = filtreFilm("Action");
+        showFilm(filmsFiltres);
+        
+    });
+    nav.appendChild(actionButton);
+
+    let sfButton = document.createElement('button');
+    sfButton.textContent = "Science-fiction";
+    sfButton.addEventListener('click', function() {
+        let filmsFiltres = filtreFilm("Science-fiction");
+        showFilm(filmsFiltres);
+        
+    });
+    nav.appendChild(sfButton);
+
+    let thrillerButton = document.createElement('button');
+    thrillerButton.textContent = "Thriller";
+    thrillerButton.addEventListener('click', function() {
+        let filmsFiltres = filtreFilm("Thriller");
+        showFilm(filmsFiltres);
+        
+    });
+    nav.appendChild(thrillerButton);
+    
+    let aventureButton = document.createElement('button');
+    aventureButton.textContent = "Aventure";
+    aventureButton.addEventListener('click', function() {
+        let filmsFiltres = filtreFilm("Aventure");
+        showFilm(filmsFiltres);
+        
+    });
+    nav.appendChild(aventureButton);
+
+    let policeButton = document.createElement('button');
+    policeButton.textContent = "Policier";
+    policeButton.addEventListener('click', function() {
+        let filmsFiltres = filtreFilm("Policier");
+        showFilm(filmsFiltres);
+        
+    });
+    nav.appendChild(policeButton);
+
+    let fantasyButton = document.createElement('button');
+    fantasyButton.textContent = "Fantasy";
+    fantasyButton.addEventListener('click', function() {
+        let filmsFiltres = filtreFilm("Fantasy");
+        showFilm(filmsFiltres);
+        
+    });
+    nav.appendChild(fantasyButton);
+
+    let romanceButton = document.createElement('button');
+    romanceButton.textContent = "Romance";
+    romanceButton.addEventListener('click', function() {
+        let filmsFiltres = filtreFilm("Romance");
+        showFilm(filmsFiltres);
+        
+    });
+    nav.appendChild(romanceButton);
+
+    let allGenresButton = document.createElement('button');
+    allGenresButton.textContent = "Tous les genres";
+    allGenresButton.addEventListener('click', function() {
+        showFilm(collection);
+    });
+    nav.appendChild(allGenresButton);
+
+    header.appendChild(nav);
+
+});
+
+function filtreFilm(genre) {
+    return collection.filter(film => film.genre.includes(genre));
+}
+
+console.log(filtreFilm("Drame"));
+
+function showFilm(films) {
+    let main = document.querySelector('main');
+    main.innerHTML = '';
+
+    films.forEach(function(film, index) {
         let article = document.createElement('article');
         let figure = document.createElement('figure');
 
@@ -192,7 +290,17 @@ document.addEventListener("DOMContentLoaded", function() {
         let synopsis = document.createElement('p');
         synopsis.textContent = film.synopsis
         
-        
+        article.setAttribute('data-index', index);
+
+
+       
+        let deleteButton = document.createElement('button');
+        deleteButton.textContent = "Supprimer";
+        deleteButton.addEventListener('click', function() {
+            deleteFilm(index);
+            main.removeChild(article);
+        });
+
         
         article.appendChild(figure);
         article.appendChild(title);
@@ -201,20 +309,23 @@ document.addEventListener("DOMContentLoaded", function() {
         article.appendChild(style);
         article.appendChild(casting);
         article.appendChild(synopsis);
+        article.appendChild(deleteButton);
+
         main.appendChild(article);
-        console.log(film.picture);
-    });
 
-    
-});
 
-document.addEventListener("DOMContentLoaded", function() {
-    let title = "Adrien's Collection";
-    let header = document.querySelector('header');
+        console.log(article.getAttribute('data-index'));
+    });  
+}
 
-    let titleHeader = document.createElement('h1');
-    titleHeader.textContent = title;
-    header.appendChild(titleHeader);
+function deleteFilm(index) {
+    if (index >= 0 && index < collection.length) {
+        collection.splice(index, 1);//rappel, le 1 pour supprimer un seul element.
+    } else {
+        console.log("Index de film invalide.");
+    }
+}
 
-    
-});
+showFilm(collection);
+
+
